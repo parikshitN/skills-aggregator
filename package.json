@@ -1,0 +1,25 @@
+{
+  "name": "skills-aggregator",
+  "version": "1.0.0",
+  "description": "Aggregator for skills management services",
+  "main": "index.js",
+  "dependencies": {
+    "@apollo/server": "^4.3.0",
+    "graphql": "^16.6.0"
+  },
+  "devDependencies": {},
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parikshitN/skills-aggregator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parikshitN/skills-aggregator/issues"
+  },
+  "homepage": "https://github.com/parikshitN/skills-aggregator#readme"
+}

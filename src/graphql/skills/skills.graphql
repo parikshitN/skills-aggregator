@@ -1,0 +1,13 @@
+type Skill {
+    name : String!
+    domain: String!
+}
+
+input SkillInput {
+    name : String!
+    domain: String!
+}
+
+type Mutation {
+    createSkill(input: SkillInput!) : Skill
+}
