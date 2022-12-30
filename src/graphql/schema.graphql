@@ -1,0 +1,23 @@
+type Skill {
+  uuid: ID!
+  name: String!
+  domain: String!
+}
+
+input SkillInput {
+  name: String!
+  domain: String!
+}
+
+type Mutation {
+  createSkill(input: SkillInput!): Skill
+}
+
+type Query {
+  getAllSkills: [Skill!]!
+}
+
+schema {
+  mutation: Mutation
+  query: Query
+}
