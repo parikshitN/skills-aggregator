@@ -25,7 +25,7 @@
   "scripts": {
     "test": "jest",
     "mergeTypDefs": "node run typeDefUtils.js,",
-    "start": "SKILLS_SERVICE_URL=http://localhost:8080 nodemon ."
+    "start": "SKILLS_SERVICE_URL=http://localhost:8080 USER_SKILLS_SERVICE_URL=http://localhost:8081 nodemon ."
   },
   "repository": {
     "type": "git",

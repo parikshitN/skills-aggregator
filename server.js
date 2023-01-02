@@ -3,7 +3,7 @@ const {importSchema} = require("graphql-import");
 const {skillResolver} = require("./src/graphql/skills");
 const {ApolloServer} = require("apollo-server-express");
 const SkillsAPI = require("./src/datasources/SkillsAPI");
-const UsersAPI = require("./src/datasources/usersAPI");
+const UsersAPI = require("./src/datasources/UsersAPI");
 const {usersResolver} = require("./src/graphql/expertise");
 
 const schema = makeExecutableSchema({typeDefs: importSchema('src/graphql/schema.graphql'), resolvers: [skillResolver, usersResolver]});
