@@ -1,0 +1,26 @@
+type UserExpertise {
+    userId: ID!,
+    expertise: [Expertise!]!
+}
+
+type Expertise {
+    skillId: ID!,
+    level: String!,
+    experience: Int!
+}
+
+input UserExpertiseInput {
+    userId: ID!,
+    expertise: [ExpertiseInput!]!
+}
+
+input ExpertiseInput {
+    skillId: ID!,
+    level: String!,
+    experience: Int!
+}
+
+type Mutation {
+    updateExpertise(input: UserExpertiseInput!) : UserExpertise
+}
+

@@ -6,7 +6,7 @@ const {importSchema} = require("graphql-import");
 const {skillResolver} = require("../index");
 const SkillsAPI = require("../../../datasources/SkillsAPI");
 const {makeExecutableSchema} = require("graphql-tools");
-const {createSkill, baseUrl} = require("../../../endpoints/SkillsEndpoints");
+const {createSkill, skillServiceBaseUrl} = require("../../../endpoints/SkillsEndpoints");
 const nock = require('nock');
 const server = require("../../../../server");
 
@@ -17,7 +17,7 @@ describe('Skills resolver test', () => {
             name: 'Kotlin',
             domain: 'Tech'
         }
-        nock(baseUrl).post(createSkill(), { name: 'Kotlin',
+        nock(skillServiceBaseUrl).post(createSkill(), { name: 'Kotlin',
             domain: 'Tech'}).reply(200, response)
 
         const client = apolloClient();
@@ -34,8 +34,6 @@ describe('Skills resolver test', () => {
             }`})).data.createSkill;
         expect(result).toEqual({name: 'Kotlin', domain: 'Tech'})
     });
-
-
 });
 
 function apolloClient() {

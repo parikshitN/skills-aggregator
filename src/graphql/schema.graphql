@@ -11,6 +11,7 @@ input SkillInput {
 
 type Mutation {
   createSkill(input: SkillInput!): Skill
+  updateExpertise(input: UserExpertiseInput!): UserExpertise
 }
 
 type Query {
@@ -20,4 +21,26 @@ type Query {
 schema {
   mutation: Mutation
   query: Query
+}
+
+type UserExpertise {
+  userId: ID!
+  expertise: [Expertise!]!
+}
+
+type Expertise {
+  skillId: ID!
+  level: String!
+  experience: Int!
+}
+
+input UserExpertiseInput {
+  userId: ID!
+  expertise: [ExpertiseInput!]!
+}
+
+input ExpertiseInput {
+  skillId: ID!
+  level: String!
+  experience: Int!
 }

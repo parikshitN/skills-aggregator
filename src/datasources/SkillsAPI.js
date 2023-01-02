@@ -1,10 +1,10 @@
 const { RESTDataSource } = require('apollo-datasource-rest');
-const {baseUrl, createSkill} = require("../endpoints/SkillsEndpoints");
+const {skillServiceBaseUrl, createSkill} = require("../endpoints/SkillsEndpoints");
 
 class SkillsAPI extends RESTDataSource {
     constructor() {
         super();
-        this.baseURL = baseUrl
+        this.baseURL = skillServiceBaseUrl
     }
 
     willSendRequest(request) {
