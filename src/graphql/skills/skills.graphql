@@ -8,8 +8,15 @@ input SkillInput {
     domain: String!
 }
 
+input UpdateSkillInput {
+    uuid : ID!
+    name : String!
+    domain: String!
+}
+
 type Mutation {
     createSkill(input: SkillInput!) : Skill
+    updateSkill(input: UpdateSkillInput!) : Skill
 }
 
 type Query {

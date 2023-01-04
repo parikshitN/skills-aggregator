@@ -1,5 +1,5 @@
 const { RESTDataSource } = require('apollo-datasource-rest');
-const {skillServiceBaseUrl, createSkill, getAllSkills, getSkill} = require("../endpoints/SkillsEndpoints");
+const {skillServiceBaseUrl, createSkill, getAllSkills, getSkill, updateSkill} = require("../endpoints/SkillsEndpoints");
 
 class SkillsAPI extends RESTDataSource {
     constructor() {
@@ -22,6 +22,10 @@ class SkillsAPI extends RESTDataSource {
 
     async getSkill(input) {
         return await this.get(getSkill(input))
+    }
+
+    async updateSkill(input) {
+        return await this.put(updateSkill(), JSON.stringify(input))
     }
 
 }

@@ -6,7 +6,7 @@ const {importSchema} = require("graphql-import");
 const {skillResolver} = require("../index");
 const SkillsAPI = require("../../../datasources/SkillsAPI");
 const {makeExecutableSchema} = require("graphql-tools");
-const {createSkill, skillServiceBaseUrl, getAllSkills, getSkill} = require("../../../endpoints/SkillsEndpoints");
+const {createSkill, skillServiceBaseUrl, getAllSkills, getSkill, updateSkill} = require("../../../endpoints/SkillsEndpoints");
 const nock = require('nock');
 const server = require("../../../../server");
 
@@ -49,7 +49,7 @@ describe('Skills resolver test', () => {
 
         const client = apolloClient();
 
-        const result = (await client.mutate({mutation: gql`
+        const result = (await client.query({query : gql`
                 query {
                     getAllSkills {
                         uuid
@@ -70,7 +70,7 @@ describe('Skills resolver test', () => {
 
         const client = apolloClient();
 
-        const result = (await client.mutate({mutation: gql`
+        const result = (await client.query({query : gql`
                 query {
                     getSkill(input: "6992cc48-2e72-4695-b38a-6440fbdbdc32") {
                         uuid
@@ -78,8 +78,35 @@ describe('Skills resolver test', () => {
                         domain
                     }
                 }`})).data.getSkill;
+
         expect(result).toEqual(response)
     });
+
+    it('should update the skill', async () => {
+        const response = {
+            uuid: '6992cc48-2e72-4695-b38a-6440fbdbdc32',
+            name: 'Java 8',
+            domain: 'Tech'
+        }
+        nock(skillServiceBaseUrl).put(updateSkill()).reply(200, response)
+        const client = apolloClient();
+
+        const result = (await client.mutate({mutation: gql`
+                mutation {
+                    updateSkill(input: {
+                        uuid: "6992cc48-2e72-4695-b38a-6440fbdbdc32",
+                        name: "Java 8",
+                        domain: "Tech"
+                        }) {
+                        uuid
+                        name
+                        domain
+                    }
+                }`})).data.updateSkill;
+
+        expect(result).toEqual(response)
+    });
+
 
 });
 

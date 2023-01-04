@@ -12,6 +12,7 @@ input SkillInput {
 type Mutation {
   createSkill(input: SkillInput!): Skill
   updateExpertise(input: UserExpertiseInput!): UserExpertise
+  updateSkill(input: UpdateSkillInput!): Skill
 }
 
 type Query {
@@ -44,4 +45,10 @@ input ExpertiseInput {
   skillId: ID!
   level: String!
   experience: Int!
+}
+
+input UpdateSkillInput {
+  uuid: ID!
+  name: String!
+  domain: String!
 }
