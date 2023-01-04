@@ -11,3 +11,7 @@ input SkillInput {
 type Mutation {
     createSkill(input: SkillInput!) : Skill
 }
+
+type Query {
+    getAllSkills : [Skill!]!
+}
