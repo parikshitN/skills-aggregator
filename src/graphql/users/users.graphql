@@ -20,7 +20,19 @@ input ExpertiseInput {
     experience: Int!
 }
 
+type User {
+    userId: ID!,
+    firstName: String!,
+    lastName: String!,
+    email: String!,
+    expertise: [Expertise!]!
+}
+
 type Mutation {
     updateExpertise(input: UserExpertiseInput!) : UserExpertise
+}
+
+type Query {
+    getUser(input: ID!) : User
 }
 

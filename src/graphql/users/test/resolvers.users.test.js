@@ -1,5 +1,5 @@
 const nock = require("nock");
-const {userServiceBaseUrl, updateExpertise} = require("../../../endpoints/UsersEndpoints");
+const {userServiceBaseUrl, updateExpertise, getUser} = require("../../../endpoints/UsersEndpoints");
 const gql = require("graphql-tag");
 const {makeExecutableSchema} = require("graphql-tools");
 const {importSchema} = require("graphql-import");
@@ -33,6 +33,32 @@ describe('User expertise resolver test', () => {
                 }`})).data.updateExpertise;
         expect(result).toEqual({userId: '9a9161d3-7b25-4e13-a712-30d3a40e2bb0', expertise})
     });
+
+    it('should get the user for a given uuid', async () => {
+        const expertise =  [{skillId: '44b04e6d-8709-4f8d-b258-2f0e89696eb6', level: "Basic", experience: 4}];
+        const response = {userId: '9a9161d3-7b25-4e13-a712-30d3a40e2bb0', firstName: 'Walter'
+            , lastName: 'White', email: 'walter@test.com', expertise};
+        const client = apolloClient();
+        nock(userServiceBaseUrl).get(getUser('9a9161d3-7b25-4e13-a712-30d3a40e2bb0'))
+            .reply(200,  response);
+
+        const result = (await client.query({query: gql`
+                query {
+                    getUser(input: "9a9161d3-7b25-4e13-a712-30d3a40e2bb0") {
+                        userId
+                        firstName
+                        lastName
+                        email
+                        expertise {
+                            experience
+                            level
+                            skillId
+                        }
+                    }
+                }`})).data.getUser;
+        expect(result).toEqual(response)
+    });
+
 });
 function apolloClient() {
     const schema = makeExecutableSchema({

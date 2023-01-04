@@ -19,6 +19,7 @@ type Mutation {
 type Query {
   getAllSkills: [Skill!]!
   getSkill(input: ID!): Skill!
+  getUser(input: ID!): User
 }
 
 schema {
@@ -56,4 +57,12 @@ input UpdateSkillInput {
 
 type DeleteResponse {
   message: String!
+}
+
+type User {
+  userId: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  expertise: [Expertise!]!
 }
