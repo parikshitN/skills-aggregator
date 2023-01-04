@@ -16,6 +16,7 @@ type Mutation {
 
 type Query {
   getAllSkills: [Skill!]!
+  getSkill(input: ID!): Skill!
 }
 
 schema {

@@ -20,6 +20,10 @@ class SkillsAPI extends RESTDataSource {
         return await this.post(createSkill(), JSON.stringify(input));
     }
 
+    async getSkill(input) {
+        return await this.get(getSkill(input))
+    }
+
 }
 
 module.exports = SkillsAPI;

@@ -6,7 +6,7 @@ const {importSchema} = require("graphql-import");
 const {skillResolver} = require("../index");
 const SkillsAPI = require("../../../datasources/SkillsAPI");
 const {makeExecutableSchema} = require("graphql-tools");
-const {createSkill, skillServiceBaseUrl, getAllSkills} = require("../../../endpoints/SkillsEndpoints");
+const {createSkill, skillServiceBaseUrl, getAllSkills, getSkill} = require("../../../endpoints/SkillsEndpoints");
 const nock = require('nock');
 const server = require("../../../../server");
 
@@ -59,6 +59,28 @@ describe('Skills resolver test', () => {
                 }`})).data.getAllSkills;
         expect(result).toEqual(response)
     });
+
+    it('should get the skill for a given uuid', async () => {
+        const response = {
+            uuid: '6992cc48-2e72-4695-b38a-6440fbdbdc32',
+            name: 'Kotlin',
+            domain: 'Tech'
+        }
+        nock(skillServiceBaseUrl).get(getSkill('6992cc48-2e72-4695-b38a-6440fbdbdc32')).reply(200, response)
+
+        const client = apolloClient();
+
+        const result = (await client.mutate({mutation: gql`
+                query {
+                    getSkill(input: "6992cc48-2e72-4695-b38a-6440fbdbdc32") {
+                        uuid
+                        name
+                        domain
+                    }
+                }`})).data.getSkill;
+        expect(result).toEqual(response)
+    });
+
 });
 
 function apolloClient() {
