@@ -13,6 +13,7 @@ type Mutation {
   createSkill(input: SkillInput!): Skill
   updateExpertise(input: UserExpertiseInput!): UserExpertise
   updateSkill(input: UpdateSkillInput!): Skill
+  deleteSkill(input: ID!): DeleteResponse!
 }
 
 type Query {
@@ -51,4 +52,8 @@ input UpdateSkillInput {
   uuid: ID!
   name: String!
   domain: String!
+}
+
+type DeleteResponse {
+  message: String!
 }

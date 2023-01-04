@@ -1,12 +1,18 @@
 const {ApolloClient} = require('apollo-client');
 const gql = require('graphql-tag');
-const { SchemaLink } = require('apollo-link-schema');
-const { InMemoryCache } = require('apollo-cache-inmemory');
+const {SchemaLink} = require('apollo-link-schema');
+const {InMemoryCache} = require('apollo-cache-inmemory');
 const {importSchema} = require("graphql-import");
 const {skillResolver} = require("../index");
 const SkillsAPI = require("../../../datasources/SkillsAPI");
 const {makeExecutableSchema} = require("graphql-tools");
-const {createSkill, skillServiceBaseUrl, getAllSkills, getSkill, updateSkill} = require("../../../endpoints/SkillsEndpoints");
+const {
+    createSkill,
+    skillServiceBaseUrl,
+    getAllSkills,
+    getSkill,
+    updateSkill, deleteSkill
+} = require("../../../endpoints/SkillsEndpoints");
 const nock = require('nock');
 const server = require("../../../../server");
 
@@ -17,21 +23,25 @@ describe('Skills resolver test', () => {
             name: 'Kotlin',
             domain: 'Tech'
         }
-        nock(skillServiceBaseUrl).post(createSkill(), { name: 'Kotlin',
-            domain: 'Tech'}).reply(200, response)
+        nock(skillServiceBaseUrl).post(createSkill(), {
+            name: 'Kotlin',
+            domain: 'Tech'
+        }).reply(200, response)
 
         const client = apolloClient();
 
-        const result = (await client.mutate({mutation: gql`
-            mutation {
-                createSkill(input: {
-                    name: "Kotlin",
-                    domain: "Tech"
-                }) {
-                    name
-                    domain
-                }
-            }`})).data.createSkill;
+        const result = (await client.mutate({
+            mutation: gql`
+                mutation {
+                    createSkill(input: {
+                        name: "Kotlin",
+                        domain: "Tech"
+                    }) {
+                        name
+                        domain
+                    }
+                }`
+        })).data.createSkill;
         expect(result).toEqual({name: 'Kotlin', domain: 'Tech'})
     });
 
@@ -49,14 +59,16 @@ describe('Skills resolver test', () => {
 
         const client = apolloClient();
 
-        const result = (await client.query({query : gql`
+        const result = (await client.query({
+            query: gql`
                 query {
                     getAllSkills {
                         uuid
                         name
                         domain
                     }
-                }`})).data.getAllSkills;
+                }`
+        })).data.getAllSkills;
         expect(result).toEqual(response)
     });
 
@@ -70,14 +82,16 @@ describe('Skills resolver test', () => {
 
         const client = apolloClient();
 
-        const result = (await client.query({query : gql`
+        const result = (await client.query({
+            query: gql`
                 query {
                     getSkill(input: "6992cc48-2e72-4695-b38a-6440fbdbdc32") {
                         uuid
                         name
                         domain
                     }
-                }`})).data.getSkill;
+                }`
+        })).data.getSkill;
 
         expect(result).toEqual(response)
     });
@@ -91,20 +105,38 @@ describe('Skills resolver test', () => {
         nock(skillServiceBaseUrl).put(updateSkill()).reply(200, response)
         const client = apolloClient();
 
-        const result = (await client.mutate({mutation: gql`
+        const result = (await client.mutate({
+            mutation: gql`
                 mutation {
                     updateSkill(input: {
                         uuid: "6992cc48-2e72-4695-b38a-6440fbdbdc32",
                         name: "Java 8",
                         domain: "Tech"
-                        }) {
+                    }) {
                         uuid
                         name
                         domain
                     }
-                }`})).data.updateSkill;
+                }`
+        })).data.updateSkill;
 
         expect(result).toEqual(response)
+    });
+
+    it('should delete the skill', async () => {
+        nock(skillServiceBaseUrl).delete(deleteSkill('6992cc48-2e72-4695-b38a-6440fbdbdc32')).reply(200, 'Skill deleted successfully')
+        const client = apolloClient();
+
+        const result = (await client.mutate({
+            mutation: gql`
+                mutation {
+                    deleteSkill(input: "6992cc48-2e72-4695-b38a-6440fbdbdc32") {
+                        message
+                    }
+                }`
+        })).data.deleteSkill;
+
+        expect(result.message).toEqual('Skill deleted successfully')
     });
 
 

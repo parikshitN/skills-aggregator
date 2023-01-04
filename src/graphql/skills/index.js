@@ -16,6 +16,16 @@ exports.skillResolver = {
 
         async updateSkill(_, args, {dataSources}) {
             return await dataSources.skillsAPI.updateSkill(args.input);
+        },
+
+        async deleteSkill(_, args, {dataSources}) {
+            return await dataSources.skillsAPI.deleteSkill(args.input);
+        }
+    },
+
+    DeleteResponse : {
+        message(parent) {
+            return parent
         }
     }
 
